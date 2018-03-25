@@ -1,4 +1,4 @@
-function getJSON(obj) {
+var getJSON = function(obj) {
     var str = JSON.stringify(obj, function(key, value) {
         if (typeof value === "object") {
             if (!value["_[isAlreadyProcessed]_"]) {
