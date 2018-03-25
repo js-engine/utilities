@@ -27,7 +27,7 @@ var getJSON = function(obj) {
             return value;
         }
     });
-}
+};
 
 /* Usage / Tests */
 var obj = {
