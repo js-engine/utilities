@@ -24,9 +24,10 @@
   <body>
     <h1>Stringify Circular Structures in JavaScript</h1>
     <h2>Code snippet:</h2>
-    <textarea readonly="readonly" class="snippet">
+    <textarea readonly="readonly" class="snippet" onclick="(function(o){document.querySelector('[name=_dummy]').focus();o.focus();}(this));">
       Loading . . .
     </textarea>
+    <input type="text" name="_dummy" />
     <h4>
       Note: 
       <br/>This function omits the keys in the result that have circular reference.
