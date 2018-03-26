@@ -1,5 +1,10 @@
 var JSONUtils = {
     "getJSON": function(obj) {
+        try {
+            return JSON.stringify(obj);
+        } catch (circRef) {
+            /* circular reference exists, proceed below with additional logic */
+        }
         var _cache = [];
         var str = JSON.stringify(obj, function(key, value) {
             if (value && typeof value === "object") {
@@ -8,7 +13,12 @@ var JSONUtils = {
                     _cache.push(value);
                     return value;
                 } else {
-                    return "[.....circRef.Key.....]";
+                    try {
+                        JSON.stringify(value);
+                        return value;
+                    } catch (circRef) {
+                        return "[.....circRef.Key.....]";
+                    }
                 }
             } else {
                 return value;
