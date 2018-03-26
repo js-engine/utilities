@@ -40,7 +40,7 @@
       xhr.open("get", "sources/stringify_circular_structures.js", true);
       xhr.onreadystatechange = function() {
           if (xhr.status === 200 && xhr.readyState === 4) {
-              document.querySelector("textarea.snippet).value = xhr.responseText;
+              document.querySelector("textarea.snippet").value = xhr.responseText;
           }
       };
       xhr.send(null);
