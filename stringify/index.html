@@ -28,22 +28,20 @@
       Loading . . .
     </textarea>
     <h4>
-      Note:
-      <br/>This function omits the keys in the result that have circular reference.
-      <br/>It modifies the original input object.
-      <br/>
-      <br/>If you want the original object to stay intact, use getJSON(_.cloneDeep(&lt;object_to_be_stringified&gt;));
-      <br/>/* _.cloneDeep is available from lodash library */
+      Note: This function omits the keys in the result that have circular reference.
     </h4>
     <script type="text/javascript">
-      var xhr = new XMLHttpRequest();
-      xhr.open("get", "sources/stringify_circular_structures.js?ts="+new Date().getTime(), true);
-      xhr.onreadystatechange = function() {
-          if (xhr.status === 200 && xhr.readyState === 4) {
-              document.querySelector("textarea.snippet").value = xhr.responseText;
-          }
-      };
-      xhr.send(null);
+      (function() {
+          var xhr = new XMLHttpRequest();
+          xhr.open("get", "sources/stringify_circular_structures.js?ts=" + new Date().getTime(), true);
+          xhr.onreadystatechange = function() {
+              if (xhr.status === 200 && xhr.readyState === 4) {
+                  document.querySelector("textarea.snippet").value = xhr.responseText;
+              }
+          };
+          xhr.send(null);
+      }());
     </script>
   </body>
 </html>
+<!-- #: eo9j3fo8w2f -->
