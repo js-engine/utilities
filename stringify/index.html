@@ -37,7 +37,7 @@
     </h4>
     <script type="text/javascript">
       var xhr = new XMLHttpRequest();
-      xhr.open("get", "sources/stringify_circular_structures.js", true);
+      xhr.open("get", "sources/stringify_circular_structures.js?ts="+new Date().getTime(), true);
       xhr.onreadystatechange = function() {
           if (xhr.status === 200 && xhr.readyState === 4) {
               document.querySelector("textarea.snippet").value = xhr.responseText;
