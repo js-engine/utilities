@@ -1,10 +1,11 @@
 var JSONUtils = {
     "getJSON": function(obj) {
-        var _cache = {};
+        var _cache = [];
         var str = JSON.stringify(obj, function(key, value) {
             if (value && typeof value === "object") {
-                if (!_cache[value]) {
-                    _cache[value] = "[.....Node.Processed.....]";
+                if (!value["[.....Node.Processed.....]"]) {
+                    value["[.....Node.Processed.....]"] = true;
+                    _cache.push(value);
                     return value;
                 } else {
                     return "[.....circRef.Key.....]";
@@ -13,6 +14,11 @@ var JSONUtils = {
                 return value;
             }
         });
+        for (var i = 0; i < _cache.length; i++) {
+            if (_cache[i] && _cache[i]["[.....Node.Processed.....]"]) {
+                delete _cache[i]["[.....Node.Processed.....]"];
+            }
+        }
         var _obj = JSON.parse(str);
         return JSON.stringify(_obj, function(key, value) {
             if (value && typeof value === "object") {
@@ -21,6 +27,9 @@ var JSONUtils = {
                         delete value[k];
                     }
                 });
+                if (value["[.....Node.Processed.....]"]) {
+                    delete value["[.....Node.Processed.....]"];
+                }
                 return value;
             } else {
                 return value;
