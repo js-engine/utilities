@@ -55,24 +55,28 @@
     <br/>
     <h5 class="cr">&copy; <a href="https://www.kcak11.com" target="_newwin" class="crLink">Ashish's Web</a>. All Rights Reserved.</h5>
     <script type="text/javascript">
-      (function() {
-          var xhr = new XMLHttpRequest();
-          xhr.open("get", "sources/stringify_circular_structures.js?ts=" + new Date().getTime(), true);
-          xhr.onreadystatechange = function() {
-              if (xhr.status === 200 && xhr.readyState === 4) {
-                  document.querySelector("textarea.snippet").value = xhr.responseText;
-              }
-          };
-          xhr.send(null);
-          document.querySelector("textarea.snippet").onclick = function() {
-              try {
-                  this.focus();
-                  this.select();
-              } catch (exjs) {
-                  window.console && window.console.log(exjs);
-              }
-          };
-      }());
+        (function() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("get", "sources/stringify_circular_structures.js?ts=" + new Date().getTime(), true);
+            xhr.onreadystatechange = function() {
+                if (xhr.status === 200 && xhr.readyState === 4) {
+                    document.querySelector("textarea.snippet").value = xhr.responseText;
+                }
+            };
+            xhr.send(null);
+            document.querySelector("textarea.snippet").onclick = function() {
+                try {
+                    var _this = this;
+                    _this.focus();
+                    _this.select();
+                    setTimeout(function() {
+                        _this.scrollTop = 0;
+                    }, 11);
+                } catch (exjs) {
+                    window.console && window.console.log(exjs);
+                }
+            };
+        }());
     </script>
   </body>
 </html>
