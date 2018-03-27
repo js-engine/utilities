@@ -73,14 +73,21 @@
     <h5 class="cr">&copy; <a href="https://www.kcak11.com" target="_newwin" class="crLink">Ashish's Web</a>. All Rights Reserved.</h5>
     <script type="text/javascript">
         (function() {
+            var ts = new Date().getTime();
             var xhr = new XMLHttpRequest();
-            xhr.open("get", "sources/stringify_circular_structures.js?ts=" + new Date().getTime(), true);
+            xhr.open("get", "sources/stringify_circular_structures.js?ts=" + ts, true);
             xhr.onreadystatechange = function() {
                 if (xhr.status === 200 && xhr.readyState === 4) {
                     document.querySelector("textarea.snippet").value = xhr.responseText;
                 }
             };
             xhr.send(null);
+            
+            var scr = document.createElement("script");
+            scr.type = "text/javascript";
+            scr.src = "sources/stringify_circular_structures.js?ts=" + ts;
+            document.querySelector("head").appendChild(scr);
+            
             document.querySelector("textarea.snippet").onclick = function() {
                 try {
                     var _this = this;
