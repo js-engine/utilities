@@ -36,6 +36,8 @@
     <input type="text" name="_dummy" class="hide" />
     <h4>
       Note: <span>This function omits the keys in the result that have circular reference.</span>
+      <br/><span>If you the keys having circular reference, then use as below:</span>
+      <br/>JSONUtils.getJSON(&lt;object_to_be_stringified&gt;, <b>true</b>);
     </h4>
     <script type="text/javascript">
       (function() {
