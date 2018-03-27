@@ -7,8 +7,16 @@
       body{
         font-family: Verdana;
       }
-      .snippet{
+      div.container{
+        position:relative;
+        height: 363px;
         width: 88%;
+      }
+      .snippet{
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        width: 100%;
         height: 363px;
         font-size: 11px;
         font-family: Verdana;
@@ -16,6 +24,17 @@
         border:2px solid rgb(3, 102, 215);
         padding: 11px;
         cursor: default;
+      }
+      .snippetTip{
+        padding: 5px;
+        font-size: 11px;
+        background-color: rgb(3, 102, 215);
+        color: #fff;
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+        border-radius: 11px;
+        display: none;
       }
       h4{
         font-style: italic;
@@ -37,11 +56,13 @@
   <body>
     <h1>Stringify Circular Structures in JavaScript</h1>
     <h2>Code snippet:</h2>
-    <textarea readonly="readonly" class="snippet">
-      Loading . . .
-    </textarea>
+    <div class="container">
+      <textarea readonly="readonly" class="snippet">Loading . . .</textarea>
+      <span class="snippetTip">Copy Ctrl+C / Command+C</span>
+    </div>
+    <br/>
     <h4>
-      Note: 
+      Note:
       <br/><span>This function omits the keys in the result that have circular reference.</span>
       <br/><span>This function will ignore the duplicate nodes having circular reference in the result.</span>
       <br/><br/><span>If you want to include the keys having circular reference (or) the duplicate nodes with circular reference, then use as below:</span>
@@ -67,10 +88,14 @@
                     _this.select();
                     setTimeout(function() {
                         _this.scrollTop = 0;
+                        document.querySelector(".snippetTip").style.display = "block";
                     }, 11);
                 } catch (exjs) {
                     window.console && window.console.log(exjs);
                 }
+            };
+            document.querySelector("textarea.snippet").onblur = function() {
+              document.querySelector(".snippetTip").style.display = "none";
             };
         }());
     </script>
