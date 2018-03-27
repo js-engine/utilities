@@ -63,6 +63,14 @@
               }
           };
           xhr.send(null);
+          document.querySelector("textarea.snippet").onclick = function() {
+              try {
+                  this.focus();
+                  this.select();
+              } catch (exjs) {
+                  window.console && window.console.log(exjs);
+              }
+          };
       }());
     </script>
   </body>
