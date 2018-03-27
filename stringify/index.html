@@ -21,7 +21,7 @@
       }
       h4 span{
         font-weight: normal;
-        font-size: 11;
+        font-size: 11px;
       }
       .hide{
         display: none;
@@ -38,8 +38,12 @@
     <h4>
       Note: 
       <br/><span>This function omits the keys in the result that have circular reference.</span>
-      <br/><span>If you want to include the keys having circular reference, then use as below:</span>
+      <br/><br/><span>If you want to include the keys having circular reference, then use as below:</span>
       <br/><span>JSONUtils.getJSON(&lt;object_to_be_stringified&gt;, <b>true</b>);</span>
+      <br/><br/><span>This function will ignore the duplicate nodes having circular reference in the result.</span>
+      <br/><span>To include duplicate nodes with circular reference use as below:</span>
+      <br/><span>JSONUtils.getJSON(&lt;object_to_be_stringified&gt;, <b>true</b>);</span>
+      <br/><br/><span>The result of specifying the second argument to the function as <b>true</b>, is that the keys will be preserved with value as <i>[!$CircularReference$!]</i></span>
     </h4>
     <script type="text/javascript">
       (function() {
