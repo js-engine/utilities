@@ -30,8 +30,8 @@ var JSONUtils = {
                 delete _cache[i][nodeProcessedIndicator];
             }
         }
-        var _obj = JSON.parse(str);
         _cache = null;
+        var _obj = JSON.parse(str);
         return JSON.stringify(_obj, function(key, value) {
             if (value && typeof value === "object") {
                 if (!includeCircRefKeys) {
