@@ -31,6 +31,7 @@ var JSONUtils = {
             }
         }
         var _obj = JSON.parse(str);
+        _cache = null;
         return JSON.stringify(_obj, function(key, value) {
             if (value && typeof value === "object") {
                 if (!includeCircRefKeys) {
