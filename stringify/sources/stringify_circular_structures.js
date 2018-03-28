@@ -61,5 +61,10 @@ var JSONUtils = {
     }
 };
 
-/* Usage / Tests */
-// JSONUtils.getJSON(obj);
+/* Usage Details: */
+
+var inputObject = {
+  /* The input object which may or may not have circular/cyclic references */
+};
+
+JSONUtils.getJSON(inputObject);
