@@ -2,10 +2,12 @@ var JSONUtils = {
     "getJSON": function(obj, includeCircRefKeys) {
         try {
             return JSON.stringify(obj);
-        } catch (circRef) {/* circular reference exists, proceed below with additional logic */
+        } catch (circRef) {
+            /* circular reference exists, proceed below with additional logic */
         }
         var nodeProcessedIndicator = "[.....Node.Processed.....]";
         var circRefIndicator = "[!#CircularReference#!]";
+        var writeAllowedIndicator = "[.....Write.Allowed.....]";
         var _cache = [];
         var str = JSON.stringify(obj, function(key, value) {
             if (value && typeof value === "object") {
@@ -13,11 +15,11 @@ var JSONUtils = {
                 try {
                     if (!value[nodeProcessedIndicator]) {
                         isWriteAllowed = true;
-                        value["[.....write.allowed.....]"] = true;
+                        value[writeAllowedIndicator] = true;
                         try {
-                            delete value["[.....write.allowed.....]"];
+                            delete value[writeAllowedIndicator];
                         } catch (deleteError) {
-                            value["[.....write.allowed.....]"] = undefined;
+                            value[writeAllowedIndicator] = undefined;
                         }
                     }
                 } catch (writeError) {
@@ -81,8 +83,8 @@ var JSONUtils = {
 };
 
 /* Usage Details: */
-
-var inputObject = {/* The input object which may or may not have circular/cyclic references */
+var inputObject = {
+    /* The input object which may or may not have circular/cyclic references */
 };
 
 JSONUtils.getJSON(inputObject);
