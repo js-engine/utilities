@@ -5,11 +5,21 @@ var JSONUtils = {
         } catch (circRef) {/* circular reference exists, proceed below with additional logic */
         }
         var nodeProcessedIndicator = "[.....Node.Processed.....]";
-        var circRefIndicator = "[!#CircularReference#!]"
+        var circRefIndicator = "[!#CircularReference#!]";
         var _cache = [];
         var str = JSON.stringify(obj, function(key, value) {
             if (value && typeof value === "object") {
-                if (!value[nodeProcessedIndicator]) {
+                var isWriteAllowed = true;
+                try {
+                    if (!value[nodeProcessedIndicator]) {
+                        isWriteAllowed = true;
+                        value["__writable__"] = true;
+                        delete value["__writable__"];
+                    }
+                } catch (exjs) {
+                    isWriteAllowed = false;
+                }
+                if (isWriteAllowed && !value[nodeProcessedIndicator]) {
                     value[nodeProcessedIndicator] = true;
                     _cache.push(value);
                     return value;
@@ -64,8 +74,7 @@ var JSONUtils = {
 
 /* Usage Details: */
 
-var inputObject = {
-  /* The input object which may or may not have circular/cyclic references */
+var inputObject = {/* The input object which may or may not have circular/cyclic references */
 };
 
 JSONUtils.getJSON(inputObject);
