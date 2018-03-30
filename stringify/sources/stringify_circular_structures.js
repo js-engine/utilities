@@ -14,7 +14,8 @@ var JSONUtils = {
                     if (!value[nodeProcessedIndicator]) {
                         isWriteAllowed = true;
                         value["[.....write.allowed.....]"] = true;
-                        delete value["[.....write.allowed.....]"];
+                        value["[.....write.allowed.....]"] = undefined;
+						delete value["[.....write.allowed.....]"];
                     }
                 } catch (exjs) {
                     isWriteAllowed = false;
