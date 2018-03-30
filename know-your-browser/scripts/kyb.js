@@ -1,0 +1,113 @@
+(function() {
+    window.knowYourBrowser = function(domcontainer) {
+        var _cache = [];
+        var _nodesref = [];
+        var traversor = function(obj) {
+            if (!obj) {
+                return;
+            }
+            var container;
+            if (_nodesref.length > 0) {
+                container = _nodesref[_nodesref.length - 1]
+            } else {
+                container = domcontainer || document.querySelector("body");
+            }
+            _nodesref.push(container);
+            var elem = document.createElement("div");
+            elem.className = "treeNode";
+            container.appendChild(elem);
+            if (!obj["processed_already"]) {
+                _nodesref.push(elem);
+            }
+            var entry;
+            var numKeysList = [];
+            var keysList = [];
+            var rawKeysList = {};
+            Object.getOwnPropertyNames(obj).forEach(function(key) {
+                rawKeysList[key] = 1;
+            });
+            for (var key in obj) {
+                rawKeysList[key] = 1;
+            }
+            var _rawKeysList = [];
+            for (var key in rawKeysList) {
+                _rawKeysList.push(key);
+            }
+            rawKeysList = _rawKeysList;
+            rawKeysList.forEach(function(key) {
+                if (isNaN(key)) {
+                    keysList.push(key);
+                } else {
+                    numKeysList.push(key);
+                }
+            });
+            keysList.sort();
+            for (var i = 0; i < numKeysList.length; i++) {
+                keysList.push(numKeysList[i]);
+            }
+            var markup;
+            var skipKeys = ["mimeTypes", "plugins", "length", "enabledPlugin", "processed_already"];
+            for (var i = 0; i < keysList.length; i++) {
+                key = keysList[i];
+                entry = document.createElement("div");
+                entry.className = "treeNode";
+                if (obj[key] !== null && obj[key] !== undefined && typeof obj[key] !== "function" && skipKeys.indexOf(key) === -1 && obj[key]["processed_already"] !== true) {
+                    if (typeof obj[key] === "object") {
+                        entry.innerHTML = "<div class=\"treeNode\">" + key + ":</div>";
+                    } else {
+                        entry.innerHTML = "<div class=\"treeNode\">" + key + ":" + "<span class=\"treeNodeValue\">" + obj[key] + "</span></div>";
+                    }
+                    elem.appendChild(entry);
+                    if (typeof obj[key] === "object") {
+                        traversor(obj[key]);
+                        obj[key]["processed_already"] = true;
+                        _cache.push(obj[key]);
+                    }
+                }
+                if (key === "mimeTypes") {
+                    entry.innerHTML = "<div class=\"treeNode\">" + key + ":</div>";
+                    var _tmp = {};
+                    Object.getOwnPropertyNames(obj["mimeTypes"]).forEach(function(_k) {
+                        if (_k && isNaN(_k) && skipKeys.indexOf(_k) === -1) {
+                            //entry.innerHTML += "<div class=\"treeNode\"><div class=\"treeNode treeNodeValue\">"+_k+"</div></div>";
+                            _tmp[_k] = "1";
+                        } else if (_k && !isNaN(_k) && obj["mimeTypes"][_k] && obj["mimeTypes"][_k]["type"]) {
+                            //entry.innerHTML += "<div class=\"treeNode\"><div class=\"treeNode treeNodeValue\">"+obj["mimeTypes"][_k]["type"]+"</div></div>";
+                            _tmp[obj["mimeTypes"][_k]["type"]] = "1";
+                        }
+                    });
+                    for (var _k in _tmp) {
+                        entry.innerHTML += "<div class=\"treeNode\"><div class=\"treeNode treeNodeValue\">" + _k + "</div></div>";
+                    }
+                    elem.appendChild(entry);
+                }
+                if (key === "plugins") {
+                    entry.innerHTML = "<div class=\"treeNode\">" + key + ":</div>";
+                    var _tmp = {};
+                    Object.getOwnPropertyNames(obj["plugins"]).forEach(function(_k) {
+                        if (_k && isNaN(_k) && skipKeys.indexOf(_k) === -1) {
+                            _tmp[_k] = "1";
+                        } else if (_k && !isNaN(_k) && obj["mimeTypes"][_k] && obj["plugins"][_k]["name"]) {
+                            _tmp[obj["plugins"][_k]["name"]] = "1";
+                        }
+                    });
+                    for (var _k in _tmp) {
+                        entry.innerHTML += "<div class=\"treeNode\"><div class=\"treeNode treeNodeValue\">" + _k + "</div></div>";
+                    }
+                    elem.appendChild(entry);
+                }
+            }
+            _nodesref.pop();
+        };
+        traversor(window.navigator);
+        for (var i = 0; i < _cache.length; i++) {
+            delete _cache[i]["processed_already"];
+        }
+        var treeNodeElements = document.querySelectorAll(".treeNode");
+        for (var i = 0; i < treeNodeElements.length; i++) {
+            if (treeNodeElements[i].innerHTML === "") {
+                treeNodeElements[i].parentNode.removeChild(treeNodeElements[i]);
+            }
+        }
+    };
+}());
