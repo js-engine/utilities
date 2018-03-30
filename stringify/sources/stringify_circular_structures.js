@@ -2,7 +2,8 @@ var JSONUtils = {
     "getJSON": function(obj, includeCircRefKeys) {
         try {
             return JSON.stringify(obj);
-        } catch (circRef) {/* circular reference exists, proceed below with additional logic */
+        } catch (circRef) {
+            /* circular reference exists, proceed below with additional logic */
         }
         var nodeProcessedIndicator = "[.....Node.Processed.....]";
         var circRefIndicator = "[!#CircularReference#!]";
@@ -41,7 +42,9 @@ var JSONUtils = {
         });
         for (var i = 0; i < _cache.length; i++) {
             if (_cache[i] && _cache[i][nodeProcessedIndicator]) {
-                delete _cache[i][nodeProcessedIndicator];
+                try {
+                    delete _cache[i][nodeProcessedIndicator];
+                } catch (deleteError) {}
             }
         }
         _cache = null;
@@ -77,7 +80,9 @@ var JSONUtils = {
 };
 
 /* Usage Details: */
-var inputObject = {/* The input object which may or may not have circular/cyclic references */
+
+var inputObject = {
+    /* The input object which may or may not have circular/cyclic references */
 };
 
 JSONUtils.getJSON(inputObject);
