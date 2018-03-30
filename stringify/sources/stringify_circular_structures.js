@@ -15,7 +15,7 @@ var JSONUtils = {
                         isWriteAllowed = true;
                         value["[.....write.allowed.....]"] = true;
                         value["[.....write.allowed.....]"] = undefined;
-						delete value["[.....write.allowed.....]"];
+                        delete value["[.....write.allowed.....]"];
                     }
                 } catch (exjs) {
                     isWriteAllowed = false;
