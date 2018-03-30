@@ -14,10 +14,13 @@ var JSONUtils = {
                     if (!value[nodeProcessedIndicator]) {
                         isWriteAllowed = true;
                         value["[.....write.allowed.....]"] = true;
-                        value["[.....write.allowed.....]"] = undefined;
-                        delete value["[.....write.allowed.....]"];
+                        try {
+                            delete value["[.....write.allowed.....]"];
+                        } catch (deleteError) {
+                            value["[.....write.allowed.....]"] = undefined;
+                        }
                     }
-                } catch (exjs) {
+                } catch (writeError) {
                     isWriteAllowed = false;
                 }
                 if (isWriteAllowed && !value[nodeProcessedIndicator]) {
@@ -74,7 +77,6 @@ var JSONUtils = {
 };
 
 /* Usage Details: */
-
 var inputObject = {/* The input object which may or may not have circular/cyclic references */
 };
 
