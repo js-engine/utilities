@@ -1,24 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style type="text/css">
-  body{
-    font-family: Verdana;
-  }
-  .treeNode{
-    margin-left: 20px;
-    padding-bottom: 7px;
-  }
-  .treeNodeValue{
-    font-weight: bold;
-  }
-</style>
+  <title>Know Your Browser</title>
+  <style type="text/css">
+    body{
+      font-family: Verdana;
+    }
+    .treeNode{
+      margin-left: 20px;
+      padding-bottom: 7px;
+    }
+    .treeNodeValue{
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-<script type="text/javascript" src="scripts/kyb.js"></script>
-<script type="text/javascript">
-knowYourBrowser();
-</script>
+  <h1>Know Your Browser:</h1>
+  <div id="kyb_result"></div>
+  <script type="text/javascript" src="scripts/kyb.js"></script>
+  <script type="text/javascript">
+    knowYourBrowser(document.querySelector("#kyb_result"));
+  </script>
 </body>
 </html>
 <!-- #: 9frvilcmimrif8t8n588hpls80okm8ngape3vvplw8guvmj6l4p9fh1jcw2a2lcw0ni91qqfg730nbe3moeb3bbehfq5274a1b7le4fmwsnkr4q1m0rhmm9ov558biusshn -->
