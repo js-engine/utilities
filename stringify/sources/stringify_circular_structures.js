@@ -10,35 +10,35 @@ var JSONUtils = {
         var writeAllowedIndicator = "[.....Write.Allowed.....]";
         var _cache = [];
         var str = JSON.stringify(obj, function(key, value) {
-            if (value && typeof value === "object") {
-                var isWriteAllowed = true;
-                try {
-                    if (!value[nodeProcessedIndicator]) {
-                        isWriteAllowed = true;
-                        value[writeAllowedIndicator] = true;
-                        try {
-                            delete value[writeAllowedIndicator];
-                        } catch (deleteError) {
-                            value[writeAllowedIndicator] = undefined;
-                        }
-                    }
-                } catch (writeError) {
-                    isWriteAllowed = false;
-                }
-                if (isWriteAllowed && !value[nodeProcessedIndicator]) {
-                    value[nodeProcessedIndicator] = true;
-                    _cache.push(value);
-                    return value;
-                } else {
+            try {
+                JSON.stringify(value);
+                return value;
+            } catch (stringifyErr) {
+                if (value && typeof value === "object") {
+                    var isWriteAllowed = true;
                     try {
-                        JSON.stringify(value);
+                        if (!value[nodeProcessedIndicator]) {
+                            isWriteAllowed = true;
+                            value[writeAllowedIndicator] = true;
+                            try {
+                                delete value[writeAllowedIndicator];
+                            } catch (deleteError) {
+                                value[writeAllowedIndicator] = undefined;
+                            }
+                        }
+                    } catch (writeError) {
+                        isWriteAllowed = false;
+                    }
+                    if (isWriteAllowed && !value[nodeProcessedIndicator]) {
+                        value[nodeProcessedIndicator] = true;
+                        _cache.push(value);
                         return value;
-                    } catch (circRef) {
+                    } else {
                         return circRefIndicator;
                     }
+                } else {
+                    return value;
                 }
-            } else {
-                return value;
             }
         });
         for (var i = 0; i < _cache.length; i++) {
