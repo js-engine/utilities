@@ -1,5 +1,37 @@
 (function() {
+    window.computeDim = function() {
+        var dimDivElem = document.querySelector("#_dimDivElem_");
+        var dimResultDiv = document.querySelector("#_dimResultDiv_");
+        if (!dimDivElem || !dimResultDiv) {
+            return;
+        }
+        var result = "";
+        result += "<div class=\"treeNode\">Screen Width: <span class=\"treeNodeValue\">" + screen.width + "px</span></div>";
+        result += "<div class=\"treeNode\">Screen Height: <span class=\"treeNodeValue\">" + screen.height + "px</span></div>";
+        result += "<div class=\"treeNode\">Viewport Width: <span class=\"treeNodeValue\">" + dimDivElem.offsetWidth + "px</span></div>";
+        result += "<div class=\"treeNode\">Viewport Height: <span class=\"treeNodeValue\">" + dimDivElem.offsetHeight + "px</span></div>";
+        result += "<div class=\"treeNode\">Orientation: <span class=\"treeNodeValue\">" + ((screen.width > screen.height) ? "Landscape" : "Portrait") + "</span></div>";
+        result += "<hr/>";
+        dimResultDiv.innerHTML = "<div class=\"treeNode\">" + result + "</div>";
+    };
     window.knowYourBrowser = function(domcontainer) {
+        var dimDiv = document.createElement("div");
+        dimDiv.id = "_dimDivElem_";
+        dimDiv.style.visibility = "hidden";
+        dimDiv.style.zIndex = -99;
+        dimDiv.style.position = "absolute";
+        dimDiv.style.left = dimDiv.style.top = dimDiv.style.right = dimDiv.style.bottom = "0px";
+        document.querySelector("body").appendChild(dimDiv);
+        var dimResultDiv = document.createElement("div");
+        dimResultDiv.id = "_dimResultDiv_";
+        dimResultDiv.classList.add("treeNode");
+        (domcontainer || document.querySelector("body")).appendChild(dimResultDiv);
+        if (window.attachEvent) {
+            window.attachEvent("onresize", computeDim);
+        } else {
+            window.addEventListener("resize", computeDim, false);
+        }
+        computeDim();
         var _cache = [];
         var _nodesref = [];
         var traversor = function(obj) {
@@ -60,8 +92,12 @@
                     elem.appendChild(entry);
                     if (typeof obj[key] === "object") {
                         traversor(obj[key]);
-                        obj[key]["processed_already"] = true;
-                        _cache.push(obj[key]);
+                        try {
+                            obj[key]["processed_already"] = true;
+                            _cache.push(obj[key]);
+                        } catch (writeErr) {
+                            /* Write Error */
+                        }
                     }
                 }
                 if (key === "mimeTypes") {
@@ -69,10 +105,8 @@
                     var _tmp = {};
                     Object.getOwnPropertyNames(obj["mimeTypes"]).forEach(function(_k) {
                         if (_k && isNaN(_k) && skipKeys.indexOf(_k) === -1) {
-                            //entry.innerHTML += "<div class=\"treeNode\"><div class=\"treeNode treeNodeValue\">"+_k+"</div></div>";
                             _tmp[_k] = "1";
                         } else if (_k && !isNaN(_k) && obj["mimeTypes"][_k] && obj["mimeTypes"][_k]["type"]) {
-                            //entry.innerHTML += "<div class=\"treeNode\"><div class=\"treeNode treeNodeValue\">"+obj["mimeTypes"][_k]["type"]+"</div></div>";
                             _tmp[obj["mimeTypes"][_k]["type"]] = "1";
                         }
                     });
@@ -101,8 +135,13 @@
         };
         traversor(window.navigator);
         for (var i = 0; i < _cache.length; i++) {
-            delete _cache[i]["processed_already"];
+            try {
+                delete _cache[i]["processed_already"];
+            } catch (deleteErr) {
+                /* Delete Error */
+            }
         }
+        _cache = null;
         var treeNodeElements = document.querySelectorAll(".treeNode");
         for (var i = 0; i < treeNodeElements.length; i++) {
             if (treeNodeElements[i].innerHTML === "") {
