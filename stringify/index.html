@@ -64,7 +64,7 @@
     <h2>Code snippet:</h2>
     <div class="container">
       <textarea readonly="readonly" class="snippet">Loading . . .</textarea>
-      <span class="snippetTip">Copy Ctrl+C / Command+C</span>
+      <span class="snippetTip">Copied Stringify Code</span>
     </div>
     <br/>
     <h4>
@@ -100,6 +100,8 @@
                     var _this = this;
                     _this.focus();
                     _this.select();
+                    _this.setSelectionRange(0, _this.value.length + 100);
+                    document.execCommand("copy");
                     setTimeout(function() {
                         _this.scrollTop = 0;
                         document.querySelector(".snippetTip").style.display = "block";
