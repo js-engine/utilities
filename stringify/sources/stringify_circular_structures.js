@@ -78,7 +78,7 @@ var JSONUtils = {
             } else {
                 return value;
             }
-        });
+        }, 5);
     }
 };
 
