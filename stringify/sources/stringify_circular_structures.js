@@ -1,7 +1,7 @@
 var JSONUtils = {
     "getJSON": function(obj, includeCircRefKeys) {
         try {
-            return JSON.stringify(obj);
+            return JSON.stringify(obj, null, 5);
         } catch (circRef) {
             /* circular reference exists, proceed below with additional logic */
         }
